@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>档案查看</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>档案查看</h1>
+    </header>
+    <nav>
+        <a href="{{ url_for('index') }}">主页</a>
+        <a href="{{ url_for('photos') }}">照片墙</a>
+        <a href="{{ url_for('videos') }}">视频回忆</a>
+        {% if is_admin %}
+            <a href="{{ url_for('profile_edit', id=profile.id) }}">编辑档案</a>
+        {% endif %}
+        <a href="{{ url_for('logout') }}">注销</a>
+    </nav>
+    <main>
+        <div class="profile-container">
+            <h2>{{ profile.name }} 的档案</h2>
+            {% if profile.type == 'teacher' %}
+                <p><strong>姓名:</strong> {{ profile.name }}</p>
+                <p><strong>教授科目:</strong> {{ profile.subject }}</p>
+                <p><strong>教学经验（年）:</strong> {{ profile.experience }}</p>
+            {% elif profile.type == 'student' %}
+                <p><strong>姓名:</strong> {{ profile.name }}</p>
+                <p><strong>年龄:</strong> {{ profile.age }}</p>
+                <p><strong>年级:</strong> {{ profile.grade }}</p>
+            {% endif %}
+        </div>
+    </main>
+    <footer>
+        <p>© 2023 毕业班全体同学</p>
+    </footer>
+</body>
+</html>

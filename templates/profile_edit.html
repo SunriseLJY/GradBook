@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>档案编辑</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>档案编辑</h1>
+    </header>
+    <nav>
+        <a href="{{ url_for('index') }}">主页</a>
+        <a href="{{ url_for('photos') }}">照片墙</a>
+        <a href="{{ url_for('videos') }}">视频回忆</a>
+        <a href="{{ url_for('profile_view', id=profile.id) }}">查看档案</a>
+        <a href="{{ url_for('logout') }}">注销</a>
+    </nav>
+    <main>
+        <div class="profile-container">
+            <h2>编辑 {{ profile.name }} 的档案</h2>
+            <form method="post">
+                <label for="name">姓名:</label>
+                <input type="text" id="name" name="name" value="{{ profile.name }}" required><br><br>
+                {% if profile.type == 'teacher' %}
+                    <label for="subject">教授科目:</label>
+                    <input type="text" id="subject" name="subject" value="{{ profile.subject }}" required><br><br>
+                    <label for="experience">教学经验（年）:</label>
+                    <input type="number" id="experience" name="experience" value="{{ profile.experience }}" required><br><br>
+                {% elif profile.type == 'student' %}
+                    <label for="age">年龄:</label>
+                    <input type="number" id="age" name="age" value="{{ profile.age }}" required><br><br>
+                    <label for="grade">年级:</label>
+                    <input type="text" id="grade" name="grade" value="{{ profile.grade }}" required><br><br>
+                {% endif %}
+                <input type="submit" value="保存修改">
+            </form>
+        </div>
+    </main>
+    <footer>
+        <p>© 2023 毕业班全体同学</p>
+    </footer>
+</body>
+</html>
