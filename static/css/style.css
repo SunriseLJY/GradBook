@@ -1,0 +1,392 @@
+/* 基础样式 */
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+header {
+  background-color: #4CAF50;
+  color: white;
+  padding: 20px;
+  text-align: center;
+}
+
+nav {
+  margin-top: 20px;
+  background-color: #333;
+  padding: 10px;
+  text-align: center;
+}
+
+/* 导航栏超链接样式 */
+nav a {
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+}
+
+nav a:hover {
+  background-color: #555;
+  color: #4CAF50;
+}
+
+main nav {
+  background-color:#4CAF50;
+  border-radius:10px;
+  height: 50px;
+  text-align: center;
+  width:auto;
+}
+
+main nav h2 {
+  color:white;
+  line-height: 15px;
+}
+
+main nav a{
+  color:white;
+  line-height: 5px;
+}
+
+main {
+  padding: 20px;
+}
+
+h2 {
+  color: #4CAF50;
+}
+
+/* 图片和视频展示区域超链接样式 */
+main a {
+  color: #4CAF50;
+  text-decoration: none;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+main a::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #4CAF50;
+  transform-origin: bottom right;
+  transition: transform 0.3s ease-out;
+}
+
+main a:hover {
+  color: #45a049;
+}
+
+main a:hover::after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+
+/* 调整网格布局 */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* 列宽最小 300px */
+  gap: 20px;
+  justify-items: center; /* 内容居中 */
+}
+
+/* 图片容器 */
+.grid .item {
+  height: 100%;         /* 高度填满网格行 */
+  width: 100%;          /* 宽度填满网格列 */
+  position: relative;   /* 为比例容器做准备 */
+}
+
+/* 强制 16:9 比例容器 */
+.grid .item::before {
+  content: "";
+  display: block;
+  padding-top: 56.25%;  /* 16:9 比例（9/16=56.25%） */
+}
+
+/* 图片和视频样式 */
+.grid img,
+.grid video {
+  position: absolute;    /* 绝对定位填充容器 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;     /* 保持比例并填充容器 */
+  border: 2px solid #4CAF50;
+  border-radius: 10px;
+  margin-top: 10px;
+}
+
+/* 单个视频时限制最大宽度 */
+.grid video {
+  max-width: 600px;     /* 防止单个视频过宽 */
+}
+
+/* 视频容器样式，用于保持 16:9 长宽比 */
+.video-container {
+  position: relative;
+  width: calc(100% - 3 * (300px + 20px)); /* 减去 3 个空位的宽度和间距 */
+  padding-top: 56.25%; /* 16:9 长宽比 (9 / 16 * 100%) */
+  margin-bottom: 20px; /* 底部间距 */
+}
+
+/* 实际视频元素样式 */
+.video-container video {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 保持比例并填充容器 */
+  border: 2px solid #4CAF50;
+  border-radius: 10px;
+}
+
+/* 视频展示区域网格布局 */
+.gallery .grid {
+  display: grid;
+  grid-template-columns: repeat(3, 300px); /* 一排 4 列，每个 300px 宽 */
+  gap: 20px; /* 列间距 */
+  justify-content: start; /* 内容居左 */
+}
+
+/* 下载链接样式 */
+.download-link {
+  display: block; /* 以块级元素显示，方便布局 */
+  position: relative; /* 为绝对定位的子元素提供参考 */
+  overflow: hidden; /* 隐藏溢出的内容 */
+  border-radius: 8px; /* 添加圆角 */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 添加阴影 */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* 添加过渡效果 */
+}
+
+.download-link:hover {
+  transform: translateY(-3px); /* 悬停时向上移动 3px */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* 悬停时加深阴影 */
+}
+
+.download-link img,
+.download-link video {
+  display: block; /* 去除图片/视频底部的空白 */
+  width: 100%; /* 宽度占满父元素 */
+  height: auto; /* 高度自适应，保持比例 */
+  object-fit: contain; /* 使用 contain 确保图片完整显示 */
+}
+
+.download-link:hover {
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  padding: 10px;
+  background-color: #333;
+  color: white;
+}
+
+.login-container {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  /* 让登录容器在页面中居中 */
+  margin: 20px auto; 
+}
+
+.login-container h2 {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.login-form input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.login-form button {
+  width: 100%;
+  padding: 10px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.login-form button:hover {
+  background-color: #45a049;
+}
+
+.login-form a {
+  color:#4CAF50;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.login-form a:hover {
+  color: #45a049;
+  text-decoration: underline;
+}
+
+.error-message {
+  color: #dc3545;
+  margin-bottom: 15px;
+  text-align: center;
+}
+
+p a {
+  color:#4CAF50;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+body header a{
+  color: white;
+  text-decoration: none;
+  margin: 0 15px;
+}
+
+.profile-container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    max-width: 500px;
+    margin: 20px auto;
+}
+
+.profile-container h2 {
+    text-align: center;
+    color: #4CAF50;
+    margin-bottom: 20px;
+}
+
+.profile-container p {
+    margin-bottom: 10px;
+}
+
+.profile-container label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.profile-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+}
+
+.profile-container input[type="submit"] {
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-container input[type="submit"]:hover {
+    background-color: #45a049;
+}
+
+/* 档案添加容器样式 */
+.profile-add-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    max-width: 600px;
+    margin: 2rem auto;
+    transition: box-shadow 0.3s ease;
+}
+
+.profile-add-container:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.15);
+}
+
+/* 档案添加标题样式 */
+.profile-add-container h2 {
+    text-align: center;
+    color: #4CAF50;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* 表单样式 */
+.profile-add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+/* 标签样式 */
+.profile-add-form label {
+    font-weight: 500;
+    color: #333333;
+    font-size: 1rem;
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* 输入框样式 */
+.profile-add-form input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.profile-add-form input:focus {
+    outline: none;
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.2);
+}
+
+/* 提交按钮样式 */
+.profile-add-form button {
+    width: 100%;
+    padding: 1rem;
+    background-color: #4CAF50;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.profile-add-form button:hover {
+    background-color: #45a049;
+}
+
+/* 错误消息样式 */
+.error-message {
+    color: #ff4444;
+    margin-top: -1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+}
