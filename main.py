@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 import os
 from flask import send_from_directory  # 确保正确导入
-import logging
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -24,9 +23,6 @@ def get_files_by_year(folder, years):
         else:
             files_by_year[year] = []
     return files_by_year
-
-# 配置日志
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # 初始化数据库
 def init_db():
@@ -51,10 +47,8 @@ def init_db():
         c.execute("PRAGMA table_info(students)")
         columns = [row[1] for row in c.fetchall()]
         if 'birthday' not in columns:
-            logging.info("Adding 'birthday' column to 'students' table")
             c.execute("ALTER TABLE students ADD COLUMN birthday TEXT")
         if 'contact' not in columns:
-            logging.info("Adding 'contact' column to 'students' table")
             c.execute("ALTER TABLE students ADD COLUMN contact TEXT")
 
     # 处理 teachers 表
@@ -70,21 +64,16 @@ def init_db():
         c.execute("PRAGMA table_info(teachers)")
         columns = [row[1] for row in c.fetchall()]
         if 'birthday' not in columns:
-            logging.info("Adding 'birthday' column to 'teachers' table")
             c.execute("ALTER TABLE teachers ADD COLUMN birthday TEXT")
         if 'subject' not in columns:
-            logging.info("Adding 'subject' column to 'teachers' table")
             c.execute("ALTER TABLE teachers ADD COLUMN subject TEXT")
         if 'teaching_time' not in columns:
-            logging.info("Adding 'teaching_time' column to 'teachers' table")
             c.execute("ALTER TABLE teachers ADD COLUMN teaching_time TEXT")
         if 'contact' not in columns:
-            logging.info("Adding 'contact' column to 'teachers' table")
             c.execute("ALTER TABLE teachers ADD COLUMN contact TEXT")
 
     conn.commit()
     conn.close()
-    logging.info("Database initialization completed")
 
 @app.route('/')
 def index():
