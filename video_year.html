@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ year }}年视频 - 毕业同学纪念网站</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>{{ year }}年视频</h1>
+    <p>我们的精彩瞬间</p>
+  </header>
+
+  <nav>
+    <a href="{{ url_for('index') }}">主页</a>
+    <a href="{{ url_for('photos') }}">照片墙</a>
+    <a href="{{ url_for('videos') }}">视频回忆</a>
+  </nav>
+
+  <main>
+    <div class="year-nav">
+      {% for y in years %}
+        <a href="{{ url_for('video_year', year=y) }}">{{ y }}年</a>
+      {% endfor %}
+    </div>
+
+    <div class="gallery">
+      <div class="grid">
+        {% for video in videos %}
+          <div class="item">
+            <!-- 视频播放器（添加 controls 以便用户操作） -->
+            <video controls>
+              <source src="{{ url_for('static', filename='videos/' + year + '/' + video) }}" type="video/mp4">
+              您的浏览器不支持视频播放。
+            </video>
+            <a href="{{ url_for('download', folder='videos', year=year, filename=video) }}" class="download-link">下载视频</a>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2023 毕业班全体同学</p>
+  </footer>
+</body>
+</html>

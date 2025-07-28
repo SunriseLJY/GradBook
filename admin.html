@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理员页面</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>欢迎，管理员</h1>
+    </header>
+
+    <nav>
+        {% if session['role'] == 'admin' %}
+            <a href="{{ url_for('admin') }}">主页</a>
+        {% else %}
+            <a href="{{ url_for('index') }}">主页</a>
+        {% endif %}
+        <a href="{{ url_for('photos') }}">照片墙</a>
+        <a href="{{ url_for('videos') }}">视频回忆</a>
+        <a href="{{ url_for('teacher_profile_list') }}">老师档案</a>
+        <a href="{{ url_for('student_profile_list') }}">同学档案</a>
+        <a href="{{ url_for('logout') }}">退出登录</a>
+    </nav>
+
+    <main>
+        <section>
+            <h2>管理功能</h2>
+            <p>你可以通过导航栏管理同学档案、老师档案，还能查看照片和视频。</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2025 太原市小店区八一小学校坞城校区2019届9班全体同学</p>
+        <p><a href="https://github.com/SunriseLJY">SunriseLJY</a>开发, 保留一切权利。</p>

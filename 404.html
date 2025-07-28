@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>404-页面不存在</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script>
+            // 3秒后返回上一页
+            setTimeout(function(){
+                window.history.back();
+            }, 3000);
+        </script>
+    </head>
+    <body>
+        <header>
+            <h1>404-页面不存在</h1>
+        </header>
+        
+        <nav>
+            {% if session['role'] == 'admin' %}
+                <a href="{{ url_for('admin') }}">主页</a>
+            {% else %}
+                <a href="{{ url_for('index') }}">主页</a>
+            {% endif %}
+            <a href="{{ url_for('photos') }}">照片墙</a>
+            <a href="{{ url_for('videos') }}">视频回忆</a>
+            <a href="{{ url_for('teacher_profile_list') }}">老师档案</a>
+            <a href="{{ url_for('student_profile_list') }}">同学档案</a>
+            <a href="{{ url_for('logout') }}">退出登录</a>
+        </nav>
+
+        <main>
+            <section>
+                <h2>无此页面，请检查网址链接。</h2>
+                <p>3秒后将自动返回上一页...</p>
+            </section>
+        </main>
+        
+
+        <footer>
+            <p>© 2023 毕业班全体同学</p>
+
+        </footer>
+    </body>
+</html>

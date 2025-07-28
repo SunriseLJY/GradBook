@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>毕业同学纪念网站</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <header>
+        <h1>毕业同学纪念网站</h1>
+        <p>欢迎来到我们的毕业纪念页面！</p>
+    </header>
+    
+    <nav>
+        <a href="{{ url_for('index') }}">主页</a>
+        <a href="#" onclick="alert('请先登录！')">照片墙</a>
+        <a href="#" onclick="alert('请先登录！')">视频回忆</a>
+        <a href="{{ url_for('login') }}">登录</a>
+        <a href="{{ url_for('register') }}">注册</a>
+    </nav>
+
+    <main>
+        <section>
+            <h2>欢迎访问</h2>
+            <p>请先登录或注册，然后点击上方导航栏查看照片和视频。</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2023 毕业班全体同学</p>
+    </footer>
+</body>
+</html>

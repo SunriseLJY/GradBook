@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>照片墙 - 毕业同学纪念网站</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>照片墙</h1>
+    <p>我们的美好回忆</p>
+  </header>
+
+  <nav>
+    <a href="{{ url_for('index') }}">主页</a>
+    <a href="{{ url_for('photos') }}">照片墙</a>
+    <a href="{{ url_for('videos') }}">视频回忆</a>
+  </nav>
+
+  <main>
+    <h3>请 长按/右键单击 图片并选择 “将图片另存为” 以将其下载。✈</h3>
+
+    <div class="gallery">
+      {% for year, images in images_by_year.items() %}
+        {% if images %}
+          <nav>
+          <h2><a href="{{ url_for('photo_year', year=year) }}" class="more-link">{{year}}年</a></h2>
+          </nav>
+
+          <div class="grid">
+            {% for image in images[:3] %}  <!-- 只展示前3张 -->
+              <div class="item">
+                <img src="{{ url_for('static', filename='images/' + year + '/' + image) }}" alt="毕业照片">
+              </div>
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2023 毕业班全体同学</p>
+  </footer>
+</body>
+</html>
