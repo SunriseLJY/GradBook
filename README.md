@@ -1,6 +1,6 @@
 # GradBook 使用说明
 
-## If you're an english reader, please translate this manual by your own, I'm sorry for this.
+### If you're an english reader, please translate this manual by your own, I'm sorry for this.
 
 
 ## 介绍
