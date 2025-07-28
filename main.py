@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect, url_for, session
 import sqlite3
 import os
 from flask import send_from_directory  # 确保正确导入
+import logging
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -13,6 +14,10 @@ VIDEO_FOLDER = os.path.join('static', 'videos')
 # 按年份分类的资源
 YEARS = [str(year) for year in range(2019, 2026)]
 
+# 档案数量
+teacher_profile_count = 0
+student_profile_count = 0
+
 def get_files_by_year(folder, years):
     """按年份分类获取文件"""
     files_by_year = {}
@@ -23,6 +28,9 @@ def get_files_by_year(folder, years):
         else:
             files_by_year[year] = []
     return files_by_year
+
+# 配置日志
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 # 初始化数据库
 def init_db():
@@ -47,8 +55,10 @@ def init_db():
         c.execute("PRAGMA table_info(students)")
         columns = [row[1] for row in c.fetchall()]
         if 'birthday' not in columns:
+            logging.info("Adding 'birthday' column to 'students' table")
             c.execute("ALTER TABLE students ADD COLUMN birthday TEXT")
         if 'contact' not in columns:
+            logging.info("Adding 'contact' column to 'students' table")
             c.execute("ALTER TABLE students ADD COLUMN contact TEXT")
 
     # 处理 teachers 表
@@ -64,16 +74,29 @@ def init_db():
         c.execute("PRAGMA table_info(teachers)")
         columns = [row[1] for row in c.fetchall()]
         if 'birthday' not in columns:
+            logging.info("Adding 'birthday' column to 'teachers' table")
             c.execute("ALTER TABLE teachers ADD COLUMN birthday TEXT")
         if 'subject' not in columns:
+            logging.info("Adding 'subject' column to 'teachers' table")
             c.execute("ALTER TABLE teachers ADD COLUMN subject TEXT")
         if 'teaching_time' not in columns:
+            logging.info("Adding 'teaching_time' column to 'teachers' table")
             c.execute("ALTER TABLE teachers ADD COLUMN teaching_time TEXT")
         if 'contact' not in columns:
+            logging.info("Adding 'contact' column to 'teachers' table")
             c.execute("ALTER TABLE teachers ADD COLUMN contact TEXT")
+
+    # 写入老师及同学档案数量
+    c.execute("SELECT COUNT(*) FROM teachers")
+    teacher_profile_count = c.fetchone()[0]
+    c.execute("SELECT COUNT(*) FROM students")
+    student_profile_count = c.fetchone()[0]
 
     conn.commit()
     conn.close()
+    logging.info("Database initialization completed")
+    logging.info(f"Teacher profile count: {teacher_profile_count}")
+    logging.info(f"Student profile count: {student_profile_count}")
 
 @app.route('/')
 def index():
@@ -210,12 +233,23 @@ def get_profile(profile_type, id):
         c.execute("SELECT id, name, birthday, contact FROM students WHERE id =?", (id,))
     elif profile_type == 'teacher':
         c.execute("SELECT id, name, birthday, subject, teaching_time, contact FROM teachers WHERE id =?", (id,))
-    profile = c.fetchone()
+    profile = c.fetchall()
     conn.close()
     return profile
 
+def delete_profile(profile_type, id):
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    if profile_type == 'student':
+        c.execute("DELETE FROM students WHERE id =?", (id,))
+    elif profile_type == 'teacher':
+        c.execute("DELETE FROM teachers WHERE id =?", (id,))
+    conn.commit()
+    conn.close()
+
 @app.route('/student_profile', methods=['GET', 'POST'])
 def student_profile():
+    global student_profile_count
     if 'user_id' not in session or session['role'] != 'admin':
         return redirect(url_for('login'))
     if request.method == 'POST':
@@ -229,6 +263,7 @@ def student_profile():
         conn.commit()
         conn.close()
         return redirect(url_for('student_profile_view', id=new_id))
+    student_profile_count += 1
     return render_template('student_profile.html')
 
 @app.route('/teacher_profile', methods=['GET', 'POST'])
@@ -268,10 +303,10 @@ def student_profile_edit(id):
         conn.close()
         return redirect(url_for('student_profile_view', id=id))
     profile_dict = {
-        'id': profile[0],
-        'name': profile[1],
-        'birthday': profile[2],
-        'contact': profile[3],
+        'id': profile[0][0],
+        'name': profile[0][1],
+        'birthday': profile[0][2],
+        'contact': profile[0][3],
         'type': 'student'
     }
     return render_template('student_profile_edit.html', profile=profile_dict)
@@ -296,15 +331,43 @@ def teacher_profile_edit(id):
         conn.close()
         return redirect(url_for('teacher_profile_view', id=id))
     profile_dict = {
-        'id': profile[0],
-        'name': profile[1],
-        'birthday': profile[2],
-        'subject': profile[3],
-        'teaching_time': profile[4],
-        'contact': profile[5],
+        'id': profile[0][0],
+        'name': profile[0][1],
+        'birthday': profile[0][2],
+        'subject': profile[0][3],
+        'teaching_time': profile[0][4],
+        'contact': profile[0][5],
         'type': 'teacher'
     }
     return render_template('teacher_profile_edit.html', profile=profile_dict)
+
+@app.route("/student_profile_list")
+def student_profile_list():
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    c.execute("SELECT name, id FROM students ORDER BY id")
+    students = c.fetchall()
+    conn.close()
+    return render_template("student_profile_list.html", prof=students, count=student_profile_count)
+
+@app.route("/teacher_profile_list")
+def teacher_profile_list():
+    conn = sqlite3.connect('users.db')
+    c = conn.cursor()
+    c.execute("SELECT name, id FROM teachers ORDER BY id")
+    teachers = c.fetchall()
+    conn.close()
+    return render_template("teacher_profile_list.html", prof=teachers, count=teacher_profile_count)
+
+@app.route("/student_profile_delete/<int:id>")
+def student_profile_delete(id):
+    delete_profile('student', id)
+    return redirect(url_for('student_profile_list'))
+
+@app.route("/teacher_profile_delete/<int:id>")
+def teacher_profile_delete(id):
+    delete_profile('teacher', id)
+    return redirect(url_for('teacher_profile_list'))
 
 @app.route('/student_profile_view/<int:id>')
 def student_profile_view(id):
@@ -314,10 +377,10 @@ def student_profile_view(id):
     if not profile:
         return render_template("404.html"), 404
     profile_dict = {
-        'id': profile[0],
-        'name': profile[1],
-        'age': profile[2],
-        'grade': profile[3],
+        'id': profile[0][0],
+        'name': profile[0][1],
+        'birthday': profile[0][2],
+        'contact': profile[0][3],
         'type': 'student'
     }
     return render_template('student_profile_view.html', profile=profile_dict)
@@ -330,10 +393,12 @@ def teacher_profile_view(id):
     if not profile:
         return render_template("404.html"), 404
     profile_dict = {
-        'id': profile[0],
-        'name': profile[1],
-        'subject': profile[2],
-        'experience': profile[3],
+        'id': profile[0][0],
+        'name': profile[0][1],
+        'birthday': profile[0][2],
+        'subject': profile[0][3],
+        'teaching_time': profile[0][4],
+        'contact': profile[0][5],
         'type': 'teacher'
     }
     return render_template('teacher_profile_view.html', profile=profile_dict)
