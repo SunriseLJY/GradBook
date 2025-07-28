@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>老师档案编辑 - 毕业同学纪念网站</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>老师档案编辑</h1>
+  </header>
+
+  <nav>
+        {% if session['role'] == 'admin' %}
+            <a href="{{ url_for('admin') }}">主页</a>
+        {% else %}
+            <a href="{{ url_for('index') }}">主页</a>
+        {% endif %}
+        <a href="{{ url_for('photos') }}">照片墙</a>
+        <a href="{{ url_for('videos') }}">视频回忆</a>
+        <a href="{{ url_for('teacher_profile_list') }}">老师档案</a>
+        <a href="{{ url_for('student_profile_list') }}">同学档案</a>
+        <a href="{{ url_for('logout') }}">退出登录</a>
+  </nav>
+
+  <main>
+    <div class="profile-add-container">
+        <h2>编辑老师档案</h2>
+        <form class="profile-add-form" method="post">
+            <label for="name">姓名:</label>
+            <input type="text" id="name" name="name" value="{{ profile.name }}" required>
+            <label for="birthday">生日:</label>
+            <input type="text" id="birthday" name="birthday" value="{{ profile.birthday }}" required>
+            <label for="subject">任教科目:</label>
+            <input type="text" id="subject" name="subject" value="{{ profile.subject }}" required>
+            <label for="teaching_time">任教时间:</label>
+            <input type="text" id="teaching_time" name="teaching_time" value="{{ profile.teaching_time }}" required>
+            <label for="contact">联系方式:</label>
+            <input type="text" id="contact" name="contact" value="{{ profile.contact }}" required>
+            <p> </p>
+            <button type="submit">提交</button>
+        </form>
+    </div>
+  </main>
+
+  <footer>
+    <p>© 2025 <a href="https://sunriseljy.github.io/">SunriseLJY</a></p>
+  </footer>
+</body>
+</html>

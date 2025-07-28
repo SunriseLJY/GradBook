@@ -12,13 +12,15 @@
     </header>
 
     <nav>
+        {% if session['role'] == 'admin' %}
+            <a href="{{ url_for('admin') }}">主页</a>
+        {% else %}
+            <a href="{{ url_for('index') }}">主页</a>
+        {% endif %}
         <a href="{{ url_for('photos') }}">照片墙</a>
         <a href="{{ url_for('videos') }}">视频回忆</a>
-        <a href="{{ url_for('student_profile_view', id=session['user_id']) }}">我的同学档案</a>
-        <a href="{{ url_for('teacher_profile_view', id=session['user_id']) }}">我的老师档案</a>
-        <a href="{{ url_for('student_profile') }}">添加同学档案</a>
-        <a href="{{ url_for('teacher_profile') }}">添加老师档案</a>
-        <a href="{{ url_for('user_list') }}">用户列表</a>
+        <a href="{{ url_for('teacher_profile_list') }}">老师档案</a>
+        <a href="{{ url_for('student_profile_list') }}">同学档案</a>
         <a href="{{ url_for('logout') }}">退出登录</a>
     </nav>
 
@@ -30,7 +32,5 @@
     </main>
 
     <footer>
-        <p>© 2023 毕业班全体同学</p>
-    </footer>
-</body>
-</html>
+        <p>© 2025 太原市小店区八一小学校坞城校区2019届9班全体同学</p>
+        <p><a href="https://github.com/SunriseLJY">SunriseLJY</a>开发, 保留一切权利。</p>

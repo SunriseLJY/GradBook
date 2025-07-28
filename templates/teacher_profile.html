@@ -11,11 +11,15 @@
         <h1>添加老师档案</h1>
     </header>
     <nav>
+        {% if session['role'] == 'admin' %}
+            <a href="{{ url_for('admin') }}">主页</a>
+        {% else %}
+            <a href="{{ url_for('index') }}">主页</a>
+        {% endif %}
         <a href="{{ url_for('photos') }}">照片墙</a>
         <a href="{{ url_for('videos') }}">视频回忆</a>
-        {% if session['role'] == 'admin' %}
-            <a href="{{ url_for('admin') }}">管理页面</a>
-        {% endif %}
+        <a href="{{ url_for('teacher_profile_list') }}">老师档案</a>
+        <a href="{{ url_for('student_profile_list') }}">同学档案</a>
         <a href="{{ url_for('logout') }}">退出登录</a>
     </nav>
     <main>

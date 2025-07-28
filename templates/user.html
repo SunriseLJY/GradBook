@@ -17,7 +17,7 @@
         <!-- 添加档案访问链接 -->
         <a href="{{ url_for('student_profile_view', id=session['user_id']) }}">我的同学档案</a>
         <a href="{{ url_for('teacher_profile_view', id=session['user_id']) }}">我的老师档案</a>
-        <a href="{{ url_for('logout') }}">注销</a>
+        <a href="{{ url_for('logout') }}">退出登录</a>
     </nav>
 
     <main>

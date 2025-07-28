@@ -19,7 +19,7 @@
   </nav>
 
   <main>
-    <h3>请点击图片以将其下载。✈</h3>
+    <h3>请 长按/右键单击 图片并选择 “将图片另存为” 以将其下载。✈</h3>
 
     <div class="gallery">
       {% for year, images in images_by_year.items() %}
@@ -32,9 +32,6 @@
             {% for image in images[:3] %}  <!-- 只展示前3张 -->
               <div class="item">
                 <img src="{{ url_for('static', filename='images/' + year + '/' + image) }}" alt="毕业照片">
-                <a href="{{ url_for('download', folder='images', year=year, filename=image) }}" class="download-link">
-                  下载图片
-                </a>
               </div>
             {% endfor %}
           </div>
