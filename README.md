@@ -19,20 +19,20 @@
 当然，你也可以在下载本项目后自行更改。
 
 ## 使用说明
-本项目采用 Python 的 Flask 第三方库实现后台逻辑，前端采用 HTML与CSS 实现，数据库采用 SQLite3 实现。
+本项目采用 Python 的 Flask 第三方库实现后台逻辑，前端采用 HTML与 CSS 实现，数据库采用 SQLite3 实现。
 
 首先，需要在您的计算机上安装以下语言环境/第三方库：
 
 - ### Python 3  
   访问 [Python 官方网站](https://www.python.org/) 下载最新版本的 Python3。
+  
+  如果发现您的电脑无法运行最新版本的 Python3，可以下载以前的版本。  
+  请尽可能下载新版本的 Python3。  
+  一定**不可以下载 Python2** ，否则本项目将**无法运行**。
 
-  接下来，运行项目目录下的 main.py 文件。
-
-  运行后，访问 `http://127.0.0.1:5000/` 即可访问本项目。
-
-- ### Flask
+- ### Flask 
   输入命令 `pip install flask` 安装 Flask 第三方库。  
-  如果您觉得下载速度慢或pip提示网络错误，可以使用以下命令：
+  如果您觉得下载速度慢或 pip 提示网络错误，可以使用以下命令：
   ```
   pip install flask -i https://pypi.tuna.tsinghua.edu.cn/simple
   ```
