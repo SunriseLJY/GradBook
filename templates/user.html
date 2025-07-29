@@ -12,11 +12,15 @@
     </header>
 
     <nav>
+        {% if session['role'] == 'admin' %}
+            <a href="{{ url_for('admin') }}">主页</a>
+        {% else %}
+            <a href="{{ url_for('user') }}">主页</a>
+        {% endif %}
         <a href="{{ url_for('photos') }}">照片墙</a>
         <a href="{{ url_for('videos') }}">视频回忆</a>
-        <!-- 添加档案访问链接 -->
-        <a href="{{ url_for('student_profile_view', id=session['user_id']) }}">我的同学档案</a>
-        <a href="{{ url_for('teacher_profile_view', id=session['user_id']) }}">我的老师档案</a>
+        <a href="{{ url_for('teacher_profile_list') }}">老师档案</a>
+        <a href="{{ url_for('student_profile_list') }}">同学档案</a>
         <a href="{{ url_for('logout') }}">退出登录</a>
     </nav>
 
